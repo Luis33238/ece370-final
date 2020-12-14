@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+INSTALL_DIR=/home/user/etc
+PROJECT_NAME=DeJesusLuis
+INSTALL_BIN=/home/user/bin
+BIN_NAME=DeJesusLuis
+export PATH="$PATH:$INSTALL_BIN"
+
+Install()
+{
+    # make folder for install
+    mkdir -p $INSTALL_DIR/$PROJECT_NAME
+    mkdir -p $INSTALL_BIN
+
+    # put our bin into bin
+    cp $BIN_NAME $INSTALL_BIN/
+
+    # put all install files in etc
+    cp -r * $INSTALL_DIR/$PROJECT_NAME/
+
+    export PATH="$PATH:$INSTALL_BIN"
+}
+
+Start()
+{
+    cd $INSTALL_DIR/$PROJECT_NAME
+    ./final.sh
+    echo "==== Environment Loaded ===="
+    ./loadRobot.sh
+    echo "==== Robot Loaded ===="
+    python key_control.py
+}
+
+Help()
+{
+    echo ' '
+    echo ' '
+    echo '------------------------------------------'
+    echo '------------- install_final --------------'
+    echo '------------------------------------------'
+    echo 'install           : Install the program'
+    echo 'start             : Starts the program'
+    echo 'help              : Shows this dialog'
+    exit 0
+}
+
+
+
+case $1 in
+'install')
+    Install
+    ;;
+'start')
+    Start
+    ;;
+'help')
+    Help
+    ;;
+*)
+    Help
+    ;;
+    esac
+exit 0
